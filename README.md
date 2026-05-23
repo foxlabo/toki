@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Toki
 
-## Getting Started
+> A local scheduling app — define your weekly availability, publish event
+> types, let guests book slots via a public link. Inspired by Cal.com,
+> re-implemented from scratch.
 
-First, run the development server:
+Toki is part of a clean-room portfolio series alongside Akari (AI chat),
+Origami (chatbot flow builder), and Kioku (local AI notes).
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Features
+
+- **Event types** — name, slug, duration, description, location kind
+  (in-person / video / phone).
+- **Weekly availability** — per day-of-week start/end windows, multiple
+  per day, capped to a 24-hour range.
+- **Public booking page** at `/book/{slug}` — pick a date, pick a slot, fill
+  in name/email/note, confirm.
+- **Bookings list** for the host with cancel links.
+- **Guest cancellation** via unique `/cancel/{token}` page.
+- **Conflict-safe writes** — a slot can only be claimed once.
+
+## Stack
+
+- Next.js 16 App Router + React 19.2 + Tailwind 4
+- TypeScript strict, Biome (lint + format), Vitest (unit), Playwright (e2e)
+- SQLite via better-sqlite3 + Drizzle ORM
+- Zod for runtime validation
+
+## Quick start
+
+```sh
+cp .env.example .env.local
+pnpm install
+pnpm db:generate
+pnpm dev --port 3400
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open <http://localhost:3400>.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Security note
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Toki is intended for **local, single-user** use. There is no authentication;
+anyone with access to the dev server can edit your availability and event
+types. The booking and cancel endpoints are public by design (guests need
+them to book). Do not deploy this to the public internet as-is.
 
-## Learn More
+The host UI assumes the **server's local timezone**. Bookings store
+millisecond UTC timestamps; the display layer uses `toLocaleString`.
 
-To learn more about Next.js, take a look at the following resources:
+## License
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT — see [LICENSE](LICENSE).
