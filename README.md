@@ -1,11 +1,7 @@
 # Toki
 
 > A local scheduling app — define your weekly availability, publish event
-> types, let guests book slots via a public link. Inspired by Cal.com,
-> re-implemented from scratch.
-
-Toki is part of a clean-room portfolio series alongside Akari (AI chat),
-Origami (chatbot flow builder), and Kioku (local AI notes).
+> types, let guests book slots via a public link.
 
 ## Features
 
